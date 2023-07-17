@@ -59,7 +59,11 @@ export class UserService {
   }
 
   async logout(userId: LogoutDto) {
-    await this.userRepository.logout(userId);
+    console.log(userId);
+    const user = await this.userRepository.logout(userId);
+    if (!user) {
+      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+    }
     return 'Logged out';
   }
 

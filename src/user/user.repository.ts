@@ -4,6 +4,7 @@ import { User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LogoutDto } from './dto/logout.dto';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class UserRepository {
@@ -36,8 +37,9 @@ export class UserRepository {
   }
 
   async logout(userId: LogoutDto) {
-    await this.userModel.findByIdAndUpdate(userId, {
+    const user = await this.userModel.findByIdAndUpdate(userId, {
       refreshToken: null,
     });
+    return user;
   }
 }
