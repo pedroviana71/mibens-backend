@@ -28,8 +28,9 @@ export class UserController {
     return this.userService.logout(id);
   }
 
+  @Public()
   @Post('refresh')
-  refresh(@User('id') id: string, @Body('refreshToken') refreshToken: string) {
+  refresh(@User('id') id: string, @User('refreshToken') refreshToken: string) {
     return this.userService.refresh(id, refreshToken);
   }
 }

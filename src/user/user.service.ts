@@ -59,7 +59,6 @@ export class UserService {
   }
 
   async logout(userId: LogoutDto) {
-    console.log(userId);
     const user = await this.userRepository.logout(userId);
     if (!user) {
       throw new HttpException('user not found', HttpStatus.NOT_FOUND);
@@ -79,11 +78,15 @@ export class UserService {
       refreshToken,
     );
 
+    console.log(isRefreshTokenMatching);
+
     if (!isRefreshTokenMatching) {
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
+
+    console.log(tokens);
 
     return tokens;
   }
