@@ -14,7 +14,7 @@ export class UserService {
   ) {}
 
   async createUser(dto: CreateUserDto) {
-    const { email, password, name } = dto;
+    const { email, password, name, lastName } = dto;
 
     const existingUser = await this.userRepository.findOneByEmail(email);
 
@@ -29,6 +29,7 @@ export class UserService {
 
     const user = await this.userRepository.createUser({
       name,
+      lastName,
       email,
       password: hashedPassword,
     });
@@ -78,15 +79,11 @@ export class UserService {
       refreshToken,
     );
 
-    console.log(isRefreshTokenMatching);
-
     if (!isRefreshTokenMatching) {
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
-
-    console.log(tokens);
 
     return tokens;
   }

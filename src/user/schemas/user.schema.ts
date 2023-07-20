@@ -6,6 +6,15 @@ export class User extends Document {
   @Prop()
   name: string;
 
+  @Prop()
+  lastName: string;
+
+  @Prop()
+  typeCar: 'own' | 'rent';
+
+  @Prop()
+  rentPrice: number;
+
   @Prop({ required: true })
   email: string;
 
