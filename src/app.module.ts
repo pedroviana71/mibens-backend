@@ -9,7 +9,9 @@ import { TransportationAppModule } from './transportation-app/transportation-app
 @Module({
   imports: [
     UserModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/mobilits'),
+    MongooseModule.forRoot(
+      process.env.MONGO_URI || 'mongodb://localhost:27017/mobilits',
+    ),
     AccountingModule,
     TransportationAppModule,
   ],
