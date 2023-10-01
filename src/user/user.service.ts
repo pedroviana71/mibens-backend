@@ -14,7 +14,8 @@ export class UserService {
   ) {}
 
   async createUser(dto: CreateUserDto) {
-    const { email, password, name, lastName } = dto;
+    const { email, password, name, lastName, apps, isCarRented, rentPrice } =
+      dto;
 
     const existingUser = await this.userRepository.findOneByEmail(email);
 
@@ -32,6 +33,9 @@ export class UserService {
       lastName,
       email,
       password: hashedPassword,
+      apps,
+      isCarRented,
+      rentPrice,
     });
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);

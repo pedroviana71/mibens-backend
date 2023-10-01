@@ -1,4 +1,12 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -16,4 +24,16 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   readonly password: string;
+
+  @IsNumber()
+  @IsOptional()
+  readonly rentPrice: 'own' | 'rent';
+
+  @IsArray()
+  @IsNotEmpty()
+  readonly apps: string[];
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isCarRented: boolean;
 }

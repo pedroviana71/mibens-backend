@@ -10,7 +10,7 @@ export class User extends Document {
   lastName: string;
 
   @Prop()
-  typeCar: 'own' | 'rent';
+  isCarRented: boolean;
 
   @Prop()
   rentPrice: number;

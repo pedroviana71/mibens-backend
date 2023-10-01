@@ -13,6 +13,7 @@ export class UserController {
   @Public()
   @Post('createUser')
   createUser(@Body() dto: CreateUserDto) {
+    console.log(dto);
     return this.userService.createUser(dto);
   }
 
