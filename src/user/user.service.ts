@@ -60,7 +60,7 @@ export class UserService {
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
 
-    return tokens;
+    return { tokens, user: user };
   }
 
   async logout(userId: LogoutDto) {

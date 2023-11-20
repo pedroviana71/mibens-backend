@@ -5,6 +5,7 @@ import { LoginUserDto } from './dto/loginUser.dto';
 import { LogoutDto } from './dto/logout.dto';
 import { User } from '../common/decorators/user.decorator';
 import { Public } from '../common/decorators/public.decorator';
+import { refreshPayloadDto } from './dto/refreshPayload.dto';
 
 @Controller('auth')
 export class UserController {
@@ -31,7 +32,10 @@ export class UserController {
 
   @Public()
   @Post('refresh')
-  refresh(@User('id') id: string, @User('refreshToken') refreshToken: string) {
-    return this.userService.refresh(id, refreshToken);
+  refresh(@Body() refreshPayload: refreshPayloadDto) {
+    return this.userService.refresh(
+      refreshPayload.userId,
+      refreshPayload.refreshToken,
+    );
   }
 }
