@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class TransportationAppDto {
   @IsNotEmpty()
-  @IsString()
-  name: string;
+  @IsArray()
+  name: string[];
 
   @IsNotEmpty()
   @IsString()

@@ -17,5 +17,6 @@ import { TransportationAppService } from './transportation-app.service';
   ],
   controllers: [TransportationAppController],
   providers: [TransportationAppRepository, TransportationAppService],
+  exports: [TransportationAppService],
 })
 export class TransportationAppModule {}

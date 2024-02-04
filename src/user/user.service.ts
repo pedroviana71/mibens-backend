@@ -5,11 +5,13 @@ import { UserRepository } from './user.repository';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LogoutDto } from './dto/logout.dto';
+import { TransportationAppService } from 'src/transportation-app/transportation-app.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private userRepository: UserRepository,
+    private transportationAppService: TransportationAppService,
     private jwtService: JwtService,
   ) {}
 
@@ -60,7 +62,7 @@ export class UserService {
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
 
-    return { tokens, user: user };
+    return { tokens, user: user._id };
   }
 
   async logout(userId: LogoutDto) {
@@ -89,7 +91,7 @@ export class UserService {
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
 
-    return tokens;
+    return { tokens, user: user._id };
   }
 
   async getTokensAndUpdate(userId: string, username: string) {
@@ -126,5 +128,23 @@ export class UserService {
       accessToken,
       refreshToken,
     };
+  }
+
+  async getUser(userId: string) {
+    const userData = await this.userRepository.findById(userId);
+    const apps = await this.transportationAppService.getAllTransportationsApp(
+      userId,
+    );
+
+    if (!userData) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const user = { ...userData.toObject(), apps };
+
+    delete user.password;
+    delete user.refreshToken;
+
+    return user;
   }
 }

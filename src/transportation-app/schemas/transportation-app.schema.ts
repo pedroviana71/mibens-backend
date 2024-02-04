@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 @Schema()
 export class TransportationApp extends Document {
   @Prop()
-  name: string;
+  name: string[];
 
   @Prop()
   userId: string;

@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { TransportationAppService } from './transportation-app.service';
 import { TransportationAppDto } from './dto/transportation-app.dto';

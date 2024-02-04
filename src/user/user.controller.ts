@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto';
 import { LoginUserDto } from './dto/loginUser.dto';
@@ -37,5 +37,10 @@ export class UserController {
       refreshPayload.userId,
       refreshPayload.refreshToken,
     );
+  }
+
+  @Get('getUser/:id')
+  getUser(@Param('id') id: string) {
+    return this.userService.getUser(id);
   }
 }
