@@ -12,7 +12,7 @@ export class UserRepository {
     private userModel: Model<User>,
   ) {}
 
-  async createUser(dto: CreateUserDto) {
+  async createUser(dto: Omit<CreateUserDto, 'apps'>) {
     const user = await this.userModel.create(dto);
 
     return user;

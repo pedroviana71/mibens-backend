@@ -35,20 +35,32 @@ export class UserService {
       lastName,
       email,
       password: hashedPassword,
-      apps,
       isCarRented,
       rentPrice,
     });
 
+    try {
+      apps.map(async (app) => {
+        await this.transportationAppService.createTransportationApp({
+          userId: user._id,
+          name: [app],
+        });
+      });
+    } catch (error) {
+      throw new HttpException('Error creating apps', HttpStatus.BAD_REQUEST);
+    }
+
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
 
-    return tokens;
+    return { tokens, user: { name: user.name, _id: user._id } };
   }
 
   async login(dto: LoginUserDto) {
     const { email, password } = dto;
 
     const user = await this.userRepository.findOneByEmail(email);
+
+    console.log(user, 'user');
 
     if (!user) {
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
@@ -62,7 +74,7 @@ export class UserService {
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
 
-    return { tokens, user: user._id };
+    return { tokens, user: { name: user.name, _id: user._id } };
   }
 
   async logout(userId: LogoutDto) {

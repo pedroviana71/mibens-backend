@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TransportationApp } from './schemas/transportation-app.schema';
 import { TransportationAppDto } from './dto/transportation-app.dto';
+import { CreateTransportationAppDto } from './dto/create-transportation-app.dto';
 
 @Injectable()
 export class TransportationAppRepository {
@@ -11,7 +12,7 @@ export class TransportationAppRepository {
     private transportationAppmodel: Model<TransportationApp>,
   ) {}
 
-  createTransportationApp(transportationApp: TransportationAppDto) {
+  createTransportationApp(transportationApp: CreateTransportationAppDto) {
     const newApp = this.transportationAppmodel.create(transportationApp);
 
     return newApp;
