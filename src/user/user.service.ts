@@ -5,7 +5,7 @@ import { UserRepository } from './user.repository';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LogoutDto } from './dto/logout.dto';
-import { TransportationAppService } from 'src/transportation-app/transportation-app.service';
+import { TransportationAppService } from '../transportation-app/transportation-app.service';
 
 @Injectable()
 export class UserService {

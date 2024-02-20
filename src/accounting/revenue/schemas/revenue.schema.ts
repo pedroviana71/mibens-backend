@@ -2,7 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class Accounting extends Document {
+export class Revenue extends Document {
+  @Prop({ required: true })
+  userId: string;
+
   @Prop({ required: true })
   date: Date;
 
@@ -15,15 +18,6 @@ export class Accounting extends Document {
   revenue: number;
 
   @Prop()
-  expense: number;
-
-  @Prop()
-  idExpense: string;
-
-  @Prop()
-  tip: number;
-
-  @Prop()
   inicialKilometer: number;
 
   @Prop()
@@ -33,4 +27,4 @@ export class Accounting extends Document {
   comments: string;
 }
 
-export const AccountingSchema = SchemaFactory.createForClass(Accounting);
+export const RevenueSchema = SchemaFactory.createForClass(Revenue);

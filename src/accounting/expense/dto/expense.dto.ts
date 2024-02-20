@@ -7,7 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class AccountingDto {
+export class ExpensingDto {
   @IsDateString()
   @IsNotEmpty()
   date: Date;
