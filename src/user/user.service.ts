@@ -40,14 +40,13 @@ export class UserService {
     });
 
     try {
-      apps.map(async (app) => {
-        await this.transportationAppService.createTransportationApp({
-          userId: user._id,
-          name: [app],
-        });
+      await this.transportationAppService.createTransportationApp({
+        userId: user._id,
+        name: apps,
       });
     } catch (error) {
-      throw new HttpException('Error creating apps', HttpStatus.BAD_REQUEST);
+      console.log(error);
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
 
     const tokens = await this.getTokensAndUpdate(user._id, user.name);
@@ -152,7 +151,7 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const user = { ...userData.toObject(), apps };
+    const user = { ...userData, apps };
 
     delete user.password;
     delete user.refreshToken;

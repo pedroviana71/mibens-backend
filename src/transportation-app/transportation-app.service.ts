@@ -10,16 +10,15 @@ export class TransportationAppService {
 
   async createTransportationApp(transportationAppDto: TransportationAppDto) {
     try {
-      transportationAppDto.name.map(async (app) => {
+      transportationAppDto.name.map(async (appName) => {
         await this.transportationAppRepository.createTransportationApp({
-          name: app,
+          name: appName,
           userId: transportationAppDto.userId,
         });
       });
     } catch (error) {
       throw new HttpException('Error creating apps', HttpStatus.BAD_REQUEST);
     }
-    return;
   }
 
   async deleteTransportationApp(id: string) {
