@@ -151,10 +151,13 @@ export class UserService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const user = { ...userData, apps };
+    const user = {
+      _id: userData._id,
+      name: userData.name,
+      apps,
+    };
 
-    delete user.password;
-    delete user.refreshToken;
+    console.log(user);
 
     return user;
   }

@@ -10,7 +10,7 @@ import { TransportationAppModule } from './transportation-app/transportation-app
   imports: [
     UserModule,
     MongooseModule.forRoot(
-      process.env.MONGO_URI || 'mongodb://localhost:27017/mobilits',
+      process.env.MONGO_URI || 'mongodb://localhost:27017/mibens',
     ),
     AccountingModule,
     TransportationAppModule,
