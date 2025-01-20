@@ -4,13 +4,16 @@ import { User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LogoutDto } from './dto/logout.dto';
-import { CreateAnonymousUserDto } from './dto/createAnonymousUser.dto';
+import { AnonymousUser } from './schemas/anonymousUser.schema';
 
 @Injectable()
 export class UserRepository {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
+
+    @InjectModel(AnonymousUser.name)
+    private anonymousUserModel: Model<AnonymousUser>,
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -20,8 +23,7 @@ export class UserRepository {
   }
 
   async createAnonymousUser() {
-    const user = await this.userModel.create();
-    console.log(user);
+    const user = await this.anonymousUserModel.create({isAnonymous: true});
     
     return user;
   }

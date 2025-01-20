@@ -1,7 +1,7 @@
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateAnonymousUserDto {
   @IsBoolean()
-  @IsNotEmpty()
+  @IsOptional()
   readonly isAnonymous: boolean;
 }

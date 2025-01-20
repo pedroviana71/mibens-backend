@@ -7,10 +7,11 @@ import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { AccessTokenStrategy } from './strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
+import { AnonymousUser, AnonymousUserSchema } from './schemas/anonymousUser.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }, { name: AnonymousUser.name, schema: AnonymousUserSchema }]),
     JwtModule.register({}),
   ],
   controllers: [UserController],

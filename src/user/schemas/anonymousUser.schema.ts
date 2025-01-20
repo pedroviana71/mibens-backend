@@ -1,9 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsOptional } from 'class-validator';
 import { Document } from 'mongoose';
 
 @Schema()
 export class AnonymousUser extends Document {
   @Prop({default: true})
+  @IsOptional()
   isAnonymous: boolean;
 
   @Prop()
@@ -24,4 +26,4 @@ export class AnonymousUser extends Document {
   invitedBy: string; 
 }
 
-export const UserSchema = SchemaFactory.createForClass(AnonymousUser);
+export const AnonymousUserSchema = SchemaFactory.createForClass(AnonymousUser);
