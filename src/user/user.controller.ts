@@ -6,6 +6,7 @@ import { LogoutDto } from './dto/logout.dto';
 import { User } from '../common/decorators/user.decorator';
 import { Public } from '../common/decorators/public.decorator';
 import { refreshPayloadDto } from './dto/refreshPayload.dto';
+import { CreateAnonymousUserDto } from './dto/createAnonymousUser.dto';
 
 @Controller('auth')
 export class UserController {
@@ -14,8 +15,13 @@ export class UserController {
   @Public()
   @Post('createUser')
   createUser(@Body() dto: CreateUserDto) {
-    console.log(dto);
     return this.userService.createUser(dto);
+  }
+
+  @Public()
+  @Post('createAnonymousUser')
+  createAnonymousUser(@Body() dto: CreateAnonymousUserDto) {
+    return this.userService.createAnonymousUser(dto);
   }
 
   @Public()

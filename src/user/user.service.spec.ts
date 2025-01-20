@@ -1,7 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
-import { TransportationAppService } from '../transportation-app/transportation-app.service';
 import { CreateUserDto } from './dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
@@ -10,16 +9,12 @@ import { Document } from 'mongoose';
 describe('UserService', () => {
   let userService: UserService;
   let userRepository: UserRepository;
-  let transportationAppService: TransportationAppService;
 
   const user: CreateUserDto = {
     name: 'test',
-    lastName: 'test',
     email: 'test',
     password: 'test',
-    apps: [],
-    isCarRented: false,
-    rentPrice: 'own',
+    isAnonymous: true,
   };
 
   beforeEach(async () => {
@@ -37,18 +32,6 @@ describe('UserService', () => {
           },
         },
         {
-          provide: TransportationAppService,
-          useValue: {
-            createTransportationApp: jest.fn().mockResolvedValue({}),
-            getAllTransportationsApp: jest.fn().mockResolvedValue([
-              {
-                _id: '1',
-                name: 'test',
-              },
-            ]),
-          },
-        },
-        {
           provide: JwtService,
           useValue: {
             signAsync: jest.fn().mockReturnValue('token'),
@@ -59,9 +42,6 @@ describe('UserService', () => {
 
     userService = module.get<UserService>(UserService);
     userRepository = module.get<UserRepository>(UserRepository);
-    transportationAppService = module.get<TransportationAppService>(
-      TransportationAppService,
-    );
   });
 
   it('should be defined', () => {
@@ -91,12 +71,6 @@ describe('UserService', () => {
     expect(userData).toEqual({
       ...userData,
       _id: '1',
-      apps: [
-        {
-          _id: '1',
-          name: 'test',
-        },
-      ],
     });
   });
 });

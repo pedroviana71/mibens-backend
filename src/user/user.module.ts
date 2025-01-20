@@ -7,14 +7,11 @@ import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { AccessTokenStrategy } from './strategies/accessToken.strategy';
 import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
-import { TransportationAppService } from 'src/transportation-app/transportation-app.service';
-import { TransportationAppModule } from 'src/transportation-app/transportation-app.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({}),
-    TransportationAppModule,
   ],
   controllers: [UserController],
   providers: [

@@ -5,21 +5,21 @@ import { UserRepository } from './user.repository';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LogoutDto } from './dto/logout.dto';
-import { TransportationAppService } from '../transportation-app/transportation-app.service';
+import { CreateAnonymousUserDto } from './dto/createAnonymousUser.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     private userRepository: UserRepository,
-    private transportationAppService: TransportationAppService,
     private jwtService: JwtService,
   ) {}
 
   async createUser(dto: CreateUserDto) {
-    const { email, password, name, lastName, apps, isCarRented, rentPrice } =
-      dto;
+    const { email, password, name, isAnonymous } = dto;
 
     const existingUser = await this.userRepository.findOneByEmail(email);
+    console.log(existingUser);
+    
 
     if (existingUser) {
       throw new HttpException(
@@ -32,34 +32,27 @@ export class UserService {
 
     const user = await this.userRepository.createUser({
       name,
-      lastName,
+      isAnonymous,
       email,
       password: hashedPassword,
-      isCarRented,
-      rentPrice,
     });
-
-    try {
-      await this.transportationAppService.createTransportationApp({
-        userId: user._id,
-        name: apps,
-      });
-    } catch (error) {
-      console.log(error);
-      throw new HttpException(error, HttpStatus.BAD_REQUEST);
-    }
-
-    const tokens = await this.getTokensAndUpdate(user._id, user.name);
+    console.log(user);
+    
+    const tokens = await this.getTokensAndUpdate(user._id);
 
     return { tokens, user: { name: user.name, _id: user._id } };
+  }
+
+  async createAnonymousUser(dto: CreateAnonymousUserDto) {
+    const user = await this.userRepository.createAnonymousUser();
+
+    return user;
   }
 
   async login(dto: LoginUserDto) {
     const { email, password } = dto;
 
     const user = await this.userRepository.findOneByEmail(email);
-
-    console.log(user, 'user');
 
     if (!user) {
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
@@ -71,7 +64,7 @@ export class UserService {
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
 
-    const tokens = await this.getTokensAndUpdate(user._id, user.name);
+    const tokens = await this.getTokensAndUpdate(user._id);
 
     return { tokens, user: { name: user.name, _id: user._id } };
   }
@@ -100,17 +93,16 @@ export class UserService {
       throw new HttpException('Access denied', HttpStatus.FORBIDDEN);
     }
 
-    const tokens = await this.getTokensAndUpdate(user._id, user.name);
+    const tokens = await this.getTokensAndUpdate(user._id);
 
     return { tokens, user: user._id };
   }
 
-  async getTokensAndUpdate(userId: string, username: string) {
+  async getTokensAndUpdate(userId: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
-          username,
         },
         {
           // secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
@@ -121,7 +113,6 @@ export class UserService {
       this.jwtService.signAsync(
         {
           sub: userId,
-          username,
         },
         {
           // secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
@@ -143,9 +134,6 @@ export class UserService {
 
   async getUser(userId: string) {
     const userData = await this.userRepository.findById(userId);
-    const apps = await this.transportationAppService.getAllTransportationsApp(
-      userId,
-    );
 
     if (!userData) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
@@ -154,10 +142,7 @@ export class UserService {
     const user = {
       _id: userData._id,
       name: userData.name,
-      apps,
     };
-
-    console.log(user);
 
     return user;
   }

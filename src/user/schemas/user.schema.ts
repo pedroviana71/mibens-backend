@@ -4,25 +4,22 @@ import { Document } from 'mongoose';
 @Schema()
 export class User extends Document {
   @Prop()
-  name: string;
+  name: string | null;
 
   @Prop()
-  lastName: string;
+  profilePicture: string | null;
 
-  @Prop()
-  isCarRented: boolean;
-
-  @Prop()
-  rentPrice: number;
+  @Prop({required: true})
+  isAnonymous: boolean;
 
   @Prop({ required: true })
-  email: string;
+  email: string | null;
 
   @Prop({ required: true })
-  password: string;
+  password: string | null;
 
   @Prop()
-  premiumExpiration: Date;
+  premiumExpiration: Date | null;
 
   @Prop({
     default: false,
@@ -30,7 +27,7 @@ export class User extends Document {
   isPremium: boolean;
 
   @Prop()
-  refreshToken: string;
+  refreshToken: string | null;
 
   @Prop({
     default: Date.now,
@@ -48,8 +45,8 @@ export class User extends Document {
   @Prop({ default: false })
   isInvited: boolean;
 
-  @Prop({ default: false })
-  hasInvitedUser: boolean;
+  @Prop()
+  invitedBy: string; 
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

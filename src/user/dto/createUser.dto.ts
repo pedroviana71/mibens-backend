@@ -1,21 +1,16 @@
 import {
-  IsArray,
   IsBoolean,
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
+  MaxLength,
 } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  @IsString()
+  @MaxLength(255)
   readonly name: string;
-
-  @IsNotEmpty()
-  @IsString()
-  readonly lastName: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -25,15 +20,7 @@ export class CreateUserDto {
   @IsString()
   readonly password: string;
 
-  @IsNumber()
-  @IsOptional()
-  readonly rentPrice: 'own' | 'rent';
-
-  @IsArray()
-  @IsNotEmpty()
-  readonly apps: string[];
-
   @IsBoolean()
   @IsNotEmpty()
-  readonly isCarRented: boolean;
+  readonly isAnonymous: boolean;
 }

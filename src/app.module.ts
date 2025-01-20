@@ -4,7 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AccessTokenGuard } from './common/guards/accessToken.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { AccountingModule } from './accounting/expense/expense.module';
-import { TransportationAppModule } from './transportation-app/transportation-app.module';
 
 @Module({
   imports: [
@@ -13,7 +12,6 @@ import { TransportationAppModule } from './transportation-app/transportation-app
       process.env.MONGO_URI || 'mongodb://localhost:27017/mibens',
     ),
     AccountingModule,
-    TransportationAppModule,
   ],
   providers: [
     {

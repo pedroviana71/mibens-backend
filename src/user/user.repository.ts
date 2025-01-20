@@ -4,6 +4,7 @@ import { User } from './schemas/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { LogoutDto } from './dto/logout.dto';
+import { CreateAnonymousUserDto } from './dto/createAnonymousUser.dto';
 
 @Injectable()
 export class UserRepository {
@@ -12,9 +13,16 @@ export class UserRepository {
     private userModel: Model<User>,
   ) {}
 
-  async createUser(dto: Omit<CreateUserDto, 'apps'>) {
+  async createUser(dto: CreateUserDto) {
     const user = await this.userModel.create(dto);
 
+    return user;
+  }
+
+  async createAnonymousUser() {
+    const user = await this.userModel.create();
+    console.log(user);
+    
     return user;
   }
 
