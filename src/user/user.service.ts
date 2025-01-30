@@ -5,7 +5,6 @@ import { UserRepository } from './user.repository';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LogoutDto } from './dto/logout.dto';
-import { CreateAnonymousUserDto } from './dto/createAnonymousUser.dto';
 
 @Injectable()
 export class UserService {
@@ -43,10 +42,12 @@ export class UserService {
     return { tokens, user: { name: user.name, _id: user._id } };
   }
 
-  async createAnonymousUser(dto: CreateAnonymousUserDto) {
+  async createAnonymousUser() {
     const user = await this.userRepository.createAnonymousUser();
 
-    return user;
+    const tokens = await this.getTokensAndUpdate(user._id);
+
+    return { tokens, user: { name: 'Anonymous', _id: user._id } };
   }
 
   async login(dto: LoginUserDto) {

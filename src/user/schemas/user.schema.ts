@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema()
 export class User extends Document {
@@ -45,8 +45,8 @@ export class User extends Document {
   @Prop({ default: false })
   isInvited: boolean;
 
-  @Prop()
-  invitedBy: string; 
+  @Prop({type: Types.ObjectId})
+  invitedBy: Types.ObjectId; 
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

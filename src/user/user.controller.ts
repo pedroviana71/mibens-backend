@@ -20,8 +20,8 @@ export class UserController {
 
   @Public()
   @Post('createAnonymousUser')
-  createAnonymousUser(@Body() dto: CreateAnonymousUserDto) {
-    return this.userService.createAnonymousUser(dto);
+  createAnonymousUser() {
+    return this.userService.createAnonymousUser();
   }
 
   @Public()

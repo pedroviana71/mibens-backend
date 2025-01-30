@@ -3,7 +3,7 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AccessTokenGuard } from './common/guards/accessToken.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { AccountingModule } from './accounting/expense/expense.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { AccountingModule } from './accounting/expense/expense.module';
     MongooseModule.forRoot(
       process.env.MONGO_URI || 'mongodb://localhost:27017/mibens',
     ),
-    AccountingModule,
+    TransactionModule,
   ],
   providers: [
     {
