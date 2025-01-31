@@ -30,7 +30,7 @@ export class Transaction extends Document {
   @Prop({ default: Date.now })
   createdAt: Date;
 
-  @Prop({ default: Date.now })
+  @Prop()
   updatedAt: Date;
 }
 

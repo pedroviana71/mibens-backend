@@ -1,25 +1,27 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsOptional } from 'class-validator';
 import { Document, Types } from 'mongoose';
 
 @Schema()
 export class User extends Document {
   @Prop()
-  name: string | null;
+  name: string;
 
   @Prop()
-  profilePicture: string | null;
+  profilePicture: string;
 
   @Prop({required: true})
   isAnonymous: boolean;
 
   @Prop({ required: true })
-  email: string | null;
+  email: string;
 
   @Prop({ required: true })
-  password: string | null;
+  password: string;
 
   @Prop()
-  premiumExpiration: Date | null;
+  @IsOptional()
+  premiumExpiration: Date;
 
   @Prop({
     default: false,
@@ -27,7 +29,7 @@ export class User extends Document {
   isPremium: boolean;
 
   @Prop()
-  refreshToken: string | null;
+  refreshToken: string;
 
   @Prop({
     default: Date.now,
