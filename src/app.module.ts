@@ -5,6 +5,8 @@ import { AccessTokenGuard } from './common/guards/accessToken.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { TransactionModule } from './transactions/transaction.module';
 import { CategoriesModule } from './categories/categories.module';
+import { CreditCardModule } from './creditCard/creditCard.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { CategoriesModule } from './categories/categories.module';
     ),
     TransactionModule,
     CategoriesModule,
+    CreditCardModule,
+    AccountModule,
   ],
   providers: [
     {

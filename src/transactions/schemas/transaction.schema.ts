@@ -9,22 +9,38 @@ export class Transaction extends Document {
   @Prop({ required: true })
   amount: number;
 
-  @Prop({ required: true, maxlength: 80 }) 
+  @Prop({ required: true, maxlength: 80 })
   title: string;
 
-  @Prop({maxlength: 240})
+  @Prop({ maxlength: 240 })
   description: string;
 
   @Prop({ required: true })
-  type: 'expense' | 'revenue';
+  type: 'expense' | 'revenue' | 'transfer';
 
-  @Prop({type: Types.ObjectId})
-  accountId: Types.ObjectId; 
+  @Prop({ required: true })
+  paymentType: 'single' | 'recurring';
 
-  @Prop({type: Types.ObjectId})
+  @Prop()
+  paymentFrequency: 'monthly' | 'yearly';
+
+  @Prop()
+  startDate: Date;
+
+  @Prop()
+  endDate: Date;
+
+  @Prop({ type: Types.ObjectId })
+  accountId: Types.ObjectId;
+
+  @Prop()
+  targetedAccountId: Types.ObjectId;
+
+  @Prop({ default: false })
+  @Prop({ type: Types.ObjectId })
   creditCardId: Types.ObjectId;
 
-  @Prop({type: Types.ObjectId})
+  @Prop({ type: Types.ObjectId })
   categoryId: Types.ObjectId;
 
   @Prop({ default: Date.now })

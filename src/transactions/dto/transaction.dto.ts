@@ -1,4 +1,5 @@
 import {
+  IsDate,
   IsMongoId,
   IsNotEmpty,
   IsNumber,
@@ -18,6 +19,7 @@ export class TransactionDto {
 
   @IsNumber()
   @IsNotEmpty()
+  @MaxLength(55)
   title: string;
 
   @IsOptional()
@@ -26,11 +28,31 @@ export class TransactionDto {
 
   @IsString()
   @IsNotEmpty()
-  type: 'expense' | 'revenue';
+  type: 'expense' | 'revenue' | 'transfer';
+
+  @IsString()
+  @IsNotEmpty()
+  paymentType: 'single' | 'recurring';
+
+  @IsOptional()
+  @IsString()
+  paymentFrequency: 'monthly' | 'yearly';
+
+  @IsOptional()
+  @IsDate()
+  startDate: Date;
+
+  @IsOptional()
+  @IsDate()
+  endDate: Date;
 
   @IsOptional()
   @IsMongoId()
-  accountId: string; 
+  accountId: string;
+
+  @IsOptional()
+  @IsMongoId()
+  targetedAccountId: string;
 
   @IsOptional()
   @IsMongoId()
