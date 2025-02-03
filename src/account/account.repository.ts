@@ -11,9 +11,9 @@ export class AccountRepository {
     private accountmodel: Model<Account>,
   ) {}
 
-  create(account: AccountDto) {
-    // const newAccounting = this.creditCardModel.create(accounting);
-    // return newAccounting;
+  create(accountDto: AccountDto) {
+    const account = this.accountmodel.create(accountDto);
+    return account;
   }
 
   delete(id: string) {

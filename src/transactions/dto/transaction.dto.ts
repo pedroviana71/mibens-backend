@@ -1,11 +1,13 @@
 import {
   IsDate,
+  IsISO8601,
   IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   MaxLength,
+  ValidateIf,
 } from 'class-validator';
 
 export class TransactionDto {
@@ -17,7 +19,6 @@ export class TransactionDto {
   @IsNotEmpty()
   amount: number;
 
-  @IsNumber()
   @IsNotEmpty()
   @MaxLength(55)
   title: string;
@@ -34,16 +35,17 @@ export class TransactionDto {
   @IsNotEmpty()
   paymentType: 'single' | 'recurring';
 
-  @IsOptional()
+  @ValidateIf((obj) => obj.paymentType === 'recurring')
   @IsString()
+  @IsNotEmpty()
   paymentFrequency: 'monthly' | 'yearly';
 
-  @IsOptional()
-  @IsDate()
+  @ValidateIf((obj) => obj.paymentType === 'recurring')
+  @IsISO8601()
   startDate: Date;
 
-  @IsOptional()
-  @IsDate()
+  @ValidateIf((obj) => obj.paymentType === 'recurring')
+  @IsISO8601()
   endDate: Date;
 
   @IsOptional()
@@ -52,6 +54,7 @@ export class TransactionDto {
 
   @IsOptional()
   @IsMongoId()
+  @ValidateIf((obj) => obj.type === 'transfer')
   targetedAccountId: string;
 
   @IsOptional()

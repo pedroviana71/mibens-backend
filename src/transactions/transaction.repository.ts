@@ -12,9 +12,9 @@ export class TransactionRepository {
   ) {}
 
   create(accounting: TransactionDto) {
-    const newAccounting = this.transactionModel.create(accounting);
+    const transaction = this.transactionModel.create(accounting);
 
-    return newAccounting;
+    return transaction;
   }
 
   delete(id: string) {

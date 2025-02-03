@@ -8,6 +8,7 @@ export class TransactionController {
 
   @Post('create')
   createTransaction(@Body() transactionDto: TransactionDto) {
+    console.log(transactionDto);
     return this.transactionService.createTransaction(transactionDto);
   }
 
@@ -15,4 +16,4 @@ export class TransactionController {
   deleteTransaction(@Body('id') id: string) {
     return this.transactionService.deleteTransaction(id);
   }
-} 
+}

@@ -7,9 +7,9 @@ export class TransactionService {
   constructor(private transactionRepository: TransactionRepository) {}
 
   createTransaction(transactionDto: TransactionDto) {
-    const accounting = this.transactionRepository.create(transactionDto);
+    const transaction = this.transactionRepository.create(transactionDto);
 
-    return accounting;
+    return transaction;
   }
 
   deleteTransaction(id: string) {

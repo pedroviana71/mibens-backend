@@ -9,7 +9,7 @@ export class Transaction extends Document {
   @Prop({ required: true })
   amount: number;
 
-  @Prop({ required: true, maxlength: 80 })
+  @Prop({ required: true, maxlength: 55 })
   title: string;
 
   @Prop({ maxlength: 240 })
@@ -36,7 +36,6 @@ export class Transaction extends Document {
   @Prop()
   targetedAccountId: Types.ObjectId;
 
-  @Prop({ default: false })
   @Prop({ type: Types.ObjectId })
   creditCardId: Types.ObjectId;
 

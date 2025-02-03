@@ -18,7 +18,6 @@ export class UserService {
 
     const existingUser = await this.userRepository.findOneByEmail(email);
     console.log(existingUser);
-    
 
     if (existingUser) {
       throw new HttpException(
@@ -36,7 +35,7 @@ export class UserService {
       password: hashedPassword,
     });
     console.log(user);
-    
+
     const tokens = await this.getTokensAndUpdate(user._id);
 
     return { tokens, user: { name: user.name, _id: user._id } };
@@ -108,7 +107,7 @@ export class UserService {
         {
           // secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
           secret: 'teste',
-          expiresIn: '15m',
+          expiresIn: '7d',
         },
       ),
       this.jwtService.signAsync(

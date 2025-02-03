@@ -7,8 +7,8 @@ export class AccountService {
   constructor(private accountRepository: AccountRepository) {}
 
   createAccount(accountDto: AccountDto) {
-    // const accounting = this.creditCardRepository.create(transactionDto);
-    // return accounting;
+    const account = this.accountRepository.create(accountDto);
+    return account;
   }
 
   deleteAccount(id: string) {
