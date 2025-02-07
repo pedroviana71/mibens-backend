@@ -10,9 +10,6 @@ export class User extends Document {
   @Prop()
   profilePicture: string;
 
-  @Prop({required: true})
-  isAnonymous: boolean;
-
   @Prop({ required: true })
   email: string;
 
@@ -47,8 +44,8 @@ export class User extends Document {
   @Prop({ default: false })
   isInvited: boolean;
 
-  @Prop({type: Types.ObjectId})
-  invitedBy: Types.ObjectId; 
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  invitedBy: Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

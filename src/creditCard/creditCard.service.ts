@@ -6,9 +6,9 @@ import { CreditCardDto } from './dto/creditCard.dto';
 export class CreditCardService {
   constructor(private creditCardRepository: CreditCardRepository) {}
 
-  createCreditCard(transactionDto: CreditCardDto) {
-    // const accounting = this.creditCardRepository.create(transactionDto);
-    // return accounting;
+  createCreditCard(creditCardDto: CreditCardDto) {
+    const creditCard = this.creditCardRepository.create(creditCardDto);
+    return creditCard;
   }
 
   deleteCreditCard(id: string) {

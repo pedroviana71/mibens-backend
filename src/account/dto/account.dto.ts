@@ -23,14 +23,9 @@ export class AccountDto {
   balance: number;
 
   @IsString()
-  @IsNotEmpty()
-  color: string;
+  color?: string;
 
   @IsOptional()
   @IsBoolean()
-  isActive: boolean;
-
-  createdAt: Date;
-
-  updatedAt: Date;
+  isActive?: boolean;
 }

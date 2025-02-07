@@ -1,5 +1,5 @@
 import {
-  IsDate,
+  IsBoolean,
   IsISO8601,
   IsMongoId,
   IsNotEmpty,
@@ -26,6 +26,10 @@ export class TransactionDto {
   @IsOptional()
   @MaxLength(240)
   description: string;
+
+  @IsOptional()
+  @IsISO8601()
+  paymentDate: Date;
 
   @IsString()
   @IsNotEmpty()
@@ -61,9 +65,21 @@ export class TransactionDto {
   @IsMongoId()
   creditCardId: string;
 
+  @ValidateIf((obj) => !!obj.creditCardId)
+  @IsNumber()
+  installments: number;
+
   @IsOptional()
   @IsMongoId()
   categoryId: string;
+
+  @IsOptional()
+  @IsISO8601()
+  paidAt: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  ignore: boolean;
 
   createdAt: Date;
 

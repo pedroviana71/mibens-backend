@@ -6,7 +6,6 @@ import { LogoutDto } from './dto/logout.dto';
 import { User } from '../common/decorators/user.decorator';
 import { Public } from '../common/decorators/public.decorator';
 import { refreshPayloadDto } from './dto/refreshPayload.dto';
-import { CreateAnonymousUserDto } from './dto/createAnonymousUser.dto';
 
 @Controller('auth')
 export class UserController {

@@ -11,10 +11,10 @@ export class CreditCardRepository {
     private creditCardModel: Model<CreditCard>,
   ) {}
 
-  create(creditCard: CreditCardDto) {
-    // const newAccounting = this.creditCardModel.create(accounting);
+  create(creditCardDto: CreditCardDto) {
+    const creditCard = this.creditCardModel.create(creditCardDto);
 
-    // return newAccounting;
+    return creditCard;
   }
 
   delete(id: string) {

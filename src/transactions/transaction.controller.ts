@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { TransactionDto } from './dto/transaction.dto';
 
@@ -10,6 +18,24 @@ export class TransactionController {
   createTransaction(@Body() transactionDto: TransactionDto) {
     console.log(transactionDto);
     return this.transactionService.createTransaction(transactionDto);
+  }
+
+  @Get('revenues')
+  getAllRevenues(getExpensesDto) {
+    return this.transactionService.getAllRevenues();
+  }
+
+  @Get('expenses')
+  getAllExpenses(
+    @Query('userId') userId: string,
+    @Query('startDate') startDate: string,
+    @Query('endDate') endDate: string,
+  ) {
+    return this.transactionService.getAllExpenses({
+      userId,
+      startDate,
+      endDate,
+    });
   }
 
   @Delete('delete')

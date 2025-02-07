@@ -14,7 +14,6 @@ describe('UserService', () => {
     name: 'test',
     email: 'test',
     password: 'test',
-    isAnonymous: true,
   };
 
   beforeEach(async () => {

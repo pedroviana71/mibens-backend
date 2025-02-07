@@ -6,7 +6,7 @@ export class Category extends Document {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;
 
   @Prop({

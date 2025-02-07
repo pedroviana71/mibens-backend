@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Account extends Document {
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
   userId: Types.ObjectId;
 
   @Prop({ required: true, maxlength: 80 })
@@ -12,7 +12,7 @@ export class Account extends Document {
   @Prop({ required: true })
   balance: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: '#54291C' })
   color: string;
 
   @Prop({ default: true })

@@ -4,10 +4,6 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class AnonymousUser extends Document {
-  @Prop({default: true})
-  @IsOptional()
-  isAnonymous: boolean;
-
   @Prop()
   refreshToken: string | null;
 
@@ -23,7 +19,7 @@ export class AnonymousUser extends Document {
   isInvited: boolean;
 
   @Prop()
-  invitedBy: string; 
+  invitedBy: string;
 }
 
 export const AnonymousUserSchema = SchemaFactory.createForClass(AnonymousUser);

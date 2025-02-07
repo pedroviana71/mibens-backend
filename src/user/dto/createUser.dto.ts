@@ -18,8 +18,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   readonly password: string;
-
-  @IsBoolean()
-  @IsNotEmpty()
-  readonly isAnonymous: boolean;
 }

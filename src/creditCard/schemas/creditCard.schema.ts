@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class CreditCard extends Document {
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
   userId: Types.ObjectId;
 
   @Prop({ required: true, maxlength: 80 })
@@ -18,7 +18,7 @@ export class CreditCard extends Document {
   @Prop({ required: true })
   closingDay: number;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop({ type: Types.ObjectId, ref: 'Account' })
   accountId: Types.ObjectId;
 
   @Prop({ default: true })

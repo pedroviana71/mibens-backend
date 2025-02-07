@@ -5,19 +5,20 @@ import { UserRepository } from './user.repository';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LogoutDto } from './dto/logout.dto';
+import { AccountService } from 'src/account/account.service';
 
 @Injectable()
 export class UserService {
   constructor(
     private userRepository: UserRepository,
     private jwtService: JwtService,
+    private accountService: AccountService,
   ) {}
 
   async createUser(dto: CreateUserDto) {
-    const { email, password, name, isAnonymous } = dto;
+    const { email, password, name } = dto;
 
     const existingUser = await this.userRepository.findOneByEmail(email);
-    console.log(existingUser);
 
     if (existingUser) {
       throw new HttpException(
@@ -30,10 +31,16 @@ export class UserService {
 
     const user = await this.userRepository.createUser({
       name,
-      isAnonymous,
       email,
       password: hashedPassword,
     });
+
+    await this.accountService.createAccount({
+      userId: user._id,
+      name: 'Carteira',
+      balance: 0,
+    });
+
     console.log(user);
 
     const tokens = await this.getTokensAndUpdate(user._id);

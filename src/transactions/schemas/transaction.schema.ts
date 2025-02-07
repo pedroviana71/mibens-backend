@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 @Schema()
 export class Transaction extends Document {
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: Types.ObjectId, required: true, ref: 'User' })
   userId: Types.ObjectId;
 
   @Prop({ required: true })
@@ -14,6 +14,9 @@ export class Transaction extends Document {
 
   @Prop({ maxlength: 240 })
   description: string;
+
+  @Prop()
+  paymentDate: Date;
 
   @Prop({ required: true })
   type: 'expense' | 'revenue' | 'transfer';
@@ -30,17 +33,27 @@ export class Transaction extends Document {
   @Prop()
   endDate: Date;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop({ type: Types.ObjectId, ref: 'Account' })
   accountId: Types.ObjectId;
 
-  @Prop()
+  @Prop({ type: Types.ObjectId, ref: 'Account' })
   targetedAccountId: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop({ type: Types.ObjectId, ref: 'CreditCard' })
   creditCardId: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId })
+  @Prop()
+  installments: number;
+
+  //verificar como fazer para popular o categoryId ou o globalCategoryId -- dar uma olhada no refPath do mongoose
+  @Prop({ type: Types.ObjectId, ref: 'Category' })
   categoryId: Types.ObjectId;
+
+  @Prop()
+  paidAt: Date;
+
+  @Prop({ default: false })
+  ignore: boolean;
 
   @Prop({ default: Date.now })
   createdAt: Date;
