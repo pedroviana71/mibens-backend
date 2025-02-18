@@ -1,17 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreditCardRepository } from './creditCard.repository';
 import { CreditCardDto } from './dto/creditCard.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreditCard } from './schemas/creditCard.schema';
 
 @Injectable()
 export class CreditCardService {
-  constructor(private creditCardRepository: CreditCardRepository) {}
+  constructor(
+    @InjectModel(CreditCard.name)
+    private creditCardModel: Model<CreditCard>,
+  ) {}
 
   createCreditCard(creditCardDto: CreditCardDto) {
-    const creditCard = this.creditCardRepository.create(creditCardDto);
+    const creditCard = this.creditCardModel.create(creditCardDto);
     return creditCard;
   }
 
   deleteCreditCard(id: string) {
-    return this.creditCardRepository.delete(id);
+    return this.creditCardModel.findByIdAndDelete(id);
   }
 }

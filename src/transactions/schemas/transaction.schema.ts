@@ -15,8 +15,8 @@ export class Transaction extends Document {
   @Prop({ maxlength: 240 })
   description: string;
 
-  @Prop()
-  paymentDate: Date;
+  @Prop({ default: Date.now })
+  transactionDate: Date;
 
   @Prop({ required: true })
   type: 'expense' | 'revenue' | 'transfer';
@@ -33,6 +33,7 @@ export class Transaction extends Document {
   @Prop()
   endDate: Date;
 
+  @Prop()
   @Prop({ type: Types.ObjectId, ref: 'Account' })
   accountId: Types.ObjectId;
 
@@ -44,6 +45,9 @@ export class Transaction extends Document {
 
   @Prop()
   installments: number;
+
+  @Prop()
+  installmentsDates: Date[];
 
   //verificar como fazer para popular o categoryId ou o globalCategoryId -- dar uma olhada no refPath do mongoose
   @Prop({ type: Types.ObjectId, ref: 'Category' })

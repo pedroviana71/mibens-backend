@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { TransactionController } from './transaction.controller';
 import { TransactionRepository } from './transaction.repository';
 import { TransactionService } from './transaction.service';
 

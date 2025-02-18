@@ -29,7 +29,7 @@ export class TransactionDto {
 
   @IsOptional()
   @IsISO8601()
-  paymentDate: Date;
+  transactionDate: Date;
 
   @IsString()
   @IsNotEmpty()
@@ -44,11 +44,17 @@ export class TransactionDto {
   @IsNotEmpty()
   paymentFrequency: 'monthly' | 'yearly';
 
-  @ValidateIf((obj) => obj.paymentType === 'recurring')
+  @ValidateIf(
+    (obj) =>
+      obj.paymentType === 'recurring' ||
+      (obj.paymentType === 'single' &&
+        obj.type === 'expense' &&
+        obj.installments > 1),
+  )
   @IsISO8601()
   startDate: Date;
 
-  @ValidateIf((obj) => obj.paymentType === 'recurring')
+  @IsOptional()
   @IsISO8601()
   endDate: Date;
 
@@ -65,9 +71,17 @@ export class TransactionDto {
   @IsMongoId()
   creditCardId: string;
 
-  @ValidateIf((obj) => !!obj.creditCardId)
+  @ValidateIf(
+    (obj) =>
+      obj.paymentType === 'single' &&
+      obj.type === 'expense' &&
+      obj.installments > 1,
+  )
   @IsNumber()
   installments: number;
+
+  @IsOptional()
+  installmentsDates: Date[];
 
   @IsOptional()
   @IsMongoId()
