@@ -12,7 +12,7 @@ export class Account extends Document {
   @Prop({ required: true })
   balance: number;
 
-  @Prop({ required: true, default: '#54291C' })
+  @Prop({ default: '#54291C' })
   color: string;
 
   @Prop({ default: true })

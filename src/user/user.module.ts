@@ -11,8 +11,6 @@ import {
   AnonymousUser,
   AnonymousUserSchema,
 } from './schemas/anonymousUser.schema';
-import { AccountService } from 'src/account/account.service';
-import { AccountRepository } from 'src/account/account.repository';
 import { AccountModule } from 'src/account/account.module';
 
 @Module({
