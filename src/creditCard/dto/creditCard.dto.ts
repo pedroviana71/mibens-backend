@@ -1,6 +1,5 @@
 import {
   IsBoolean,
-  IsDate,
   IsMongoId,
   IsNotEmpty,
   IsNumber,
@@ -18,6 +17,11 @@ export class CreditCardDto {
   @IsNotEmpty()
   @MaxLength(55)
   name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(55)
+  color: string;
 
   @IsNumber()
   @IsNotEmpty()

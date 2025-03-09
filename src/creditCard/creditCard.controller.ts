@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { CreditCardService } from './creditCard.service';
 import { CreditCardDto } from './dto/creditCard.dto';
 
@@ -11,8 +11,13 @@ export class CreditCardController {
     return this.creditCardService.createCreditCard(creditCardDto);
   }
 
+  @Get()
+  getCreditCards(@Query('userId') userId: string) {
+    return this.creditCardService.getCreditCards(userId);
+  }
+
   @Delete('delete')
   deleteCreditCard(@Body('id') id: string) {
     return this.creditCardService.deleteCreditCard(id);
   }
-} 
+}

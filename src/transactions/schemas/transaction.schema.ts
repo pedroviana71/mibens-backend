@@ -22,16 +22,16 @@ export class Transaction extends Document {
   type: 'expense' | 'revenue' | 'transfer';
 
   @Prop({ required: true })
-  paymentType: 'single' | 'recurring';
+  paymentType: 'single' | 'recurring' | 'installment';
 
   @Prop()
   paymentFrequency: 'monthly' | 'yearly';
 
   @Prop()
-  startDate: Date;
+  recurringStartDate: Date;
 
   @Prop()
-  endDate: Date;
+  recurringEndDate: Date;
 
   @Prop()
   @Prop({ type: Types.ObjectId, ref: 'Account' })

@@ -9,6 +9,9 @@ export class CreditCard extends Document {
   @Prop({ required: true, maxlength: 80 })
   name: string;
 
+  @Prop({required: true})
+  color: string
+
   @Prop({ required: true })
   limit: number;
 

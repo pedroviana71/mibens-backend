@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { addMonths, getDate } from 'date-fns';
 import { CreditCard } from 'src/creditCard/schemas/creditCard.schema';
 import { UTCDate } from '@date-fns/utc';
+import { Account } from 'src/account/schemas/account.schema';
 interface TransactionParams {
   userId: string;
   startDate: string;
@@ -25,14 +26,12 @@ export class TransactionService {
   async createTransaction(transactionDto: TransactionDto) {
     const { installments } = transactionDto;
 
-    if (installments > 1) {
-      const { installmentsDates, endDate } = await this.createInstallmentDates(
-        installments,
-        transactionDto,
-      );
+    if (installments > 1 && transactionDto.creditCardId) {
+      const { installmentsDates, endDate } =
+        await this.createCreditInstallmentDates(installments, transactionDto);
 
       transactionDto.installmentsDates = installmentsDates;
-      transactionDto.endDate = endDate;
+      transactionDto.recurringEndDate = endDate;
     }
 
     const transaction = this.transactionModel.create(transactionDto);
@@ -71,55 +70,6 @@ export class TransactionService {
     // 7- recurring cartao credito finalizada
     // 8- conta entre contas
 
-    // const singleAccountAndCreditCard = await this.transactionModel
-    //   .find({
-    //     userId,
-    //     type: 'expense',
-    //     paymentType: 'single',
-    //     transactionDate: {
-    //       $gte: new UTCDate(startDate),
-    //       $lte: new UTCDate(endDate),
-    //     },
-    //     installments: { $lte: 1 },
-    //   })
-    //   .populate(populate)
-    //   .lean();
-
-    // const singleCreditCardWithInstallments = await this.transactionModel
-    //   .find({
-    //     userId,
-    //     type: 'expense',
-    //     paymentType: 'single',
-    //     installmentsDates: {
-    //       $elemMatch: {
-    //         $gte: new UTCDate(startDate),
-    //         $lte: new UTCDate(endDate),
-    //       },
-    //     },
-    //   })
-    //   .populate(populate)
-    //   .lean();
-
-    // const openRecurringTransactions = await this.transactionModel
-    //   .find({
-    //     userId,
-    //     paymentType: 'recurring',
-    //     startDate: { $lte: new UTCDate(endDate) },
-    //     endDate: { $eq: null },
-    //   })
-    //   .populate(populate)
-    //   .lean();
-
-    // const closedRecurringTransactions = await this.transactionModel
-    //   .find({
-    //     userId,
-    //     paymentType: 'recurring',
-    //     startDate: { $lte: new UTCDate(endDate) },
-    //     endDate: { $gte: new UTCDate(startDate) },
-    //   })
-    //   .populate(populate)
-    //   .lean();
-
     const transactions = await this.transactionModel
       .find({
         userId,
@@ -141,7 +91,7 @@ export class TransactionService {
           // transacoes simples em cartoes de credito com parcelas
           {
             type: 'expense',
-            paymentType: 'single',
+            paymentType: 'installment',
             installmentsDates: {
               $elemMatch: {
                 $gte: new UTCDate(startDate),
@@ -152,14 +102,14 @@ export class TransactionService {
           // transacoes recorrentes no qual ainda nao foram finalizadas
           {
             paymentType: 'recurring',
-            startDate: { $lte: new UTCDate(endDate) },
+            recurringStartDate: { $lte: new UTCDate(endDate) },
             endDate: { $eq: null },
           },
           // transacoes recorrentes finalizadas
           {
             paymentType: 'recurring',
-            startDate: { $lte: new UTCDate(endDate) },
-            endDate: { $gte: new UTCDate(startDate) },
+            recurringStartDate: { $lte: new UTCDate(endDate) },
+            recurringEndDate: { $gte: new UTCDate(startDate) },
           },
         ],
       })
@@ -179,7 +129,7 @@ export class TransactionService {
     return this.transactionModel.findByIdAndDelete(id);
   }
 
-  async createInstallmentDates(
+  async createCreditInstallmentDates(
     installments: number,
     transactionDto: TransactionDto,
   ) {
